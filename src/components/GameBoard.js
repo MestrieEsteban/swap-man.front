@@ -21,7 +21,6 @@ class GameBoard {
     this.DOMGrid.innerHTML = '';
     // First set correct amount of columns based on Grid Size and Cell Size
     this.DOMGrid.style.cssText = `grid-template-columns: repeat(${GRID_SIZE}, ${CELL_SIZE}px);`;
-
     level.forEach((square) => {
       const div = document.createElement('div');
       div.classList.add('square', CLASS_LIST[square]);

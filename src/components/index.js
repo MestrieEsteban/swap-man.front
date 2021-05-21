@@ -9,7 +9,6 @@ export default {
     return {
       gameGrid: document.querySelector('#game'),
       scoreTable: document.querySelector('#score'),
-      startButton: document.querySelector('#score'),
       POWER_PILL_TIME: 10000,
       GLOBAL_SPEED: 80,
       gameBoard: null,
@@ -32,7 +31,6 @@ export default {
 
       clearInterval(timer);
       // Show startbutton
-      this.startButton.classList.remove('hide');
     },
     checkCollision(pacman, ghosts) {
       const collidedGhost = ghosts.find((ghost) => pacman.pos === ghost.pos);
@@ -99,40 +97,29 @@ export default {
       this.scoreTable.innerHTML = this.score;
     },
     startGame() {
-      this.setup()
+      document.querySelector('#grid').classList.remove("hide")
       this.gameWin = false;
       this.powerPillActive = false;
       this.score = 0;
-
-      //this.startButton.classList.add('hide');
-
-      this.gameBoard.createGrid(LEVEL);
-      document.getElementById('grid').classList.remove("hide")
+      const gameGrid = document.querySelector('#game');
+      let gameBoard = GameBoard.createGameBoard(gameGrid, LEVEL);
+      gameBoard.createGrid(LEVEL);
       const pacman = new Pacman(2, 287);
-      this.gameBoard.addObject(287, [OBJECT_TYPE.PACMAN]);
+      gameBoard.addObject(287, [OBJECT_TYPE.PACMAN]);
       document.addEventListener('keydown', (e) =>
-        pacman.handleKeyInput(e, this.gameBoard.objectExist.bind(this.gameBoard))
+        pacman.handleKeyInput(e, gameBoard.objectExist.bind(gameBoard))
       );
-      /*
-        const ghosts = [
+
+        /*const ghosts = [
           new Ghost(5, 188, randomMovement, OBJECT_TYPE.BLINKY),
           new Ghost(4, 209, randomMovement, OBJECT_TYPE.PINKY),
           new Ghost(3, 230, randomMovement, OBJECT_TYPE.INKY),
           new Ghost(2, 251, randomMovement, OBJECT_TYPE.CLYDE)
         ];*/
 
-      // Gameloop
-      // timer = setInterval(() => gameLoop(pacman, ghosts), GLOBAL_SPEED);
+       Gameloop
+       //this.timer = setInterval(() => gameLoop(pacman, ghosts), GLOBAL_SPEED);
     },
-    setup(){
-      this.gameGrid = document.querySelector('#game')
-      this.scoreTable = document.querySelector('#score')
-      this.startButton =  document.querySelector('#score')
-      if(this.gameGrid !== null && this.scoreTable != null && this.startButton != null )
-      {
-        this.gameBoard = GameBoard.createGameBoard(this.gameGrid, LEVEL);
-      }
-    }
   }
 }
 

@@ -9,7 +9,6 @@
           <img src="~assets/logo.png" width="700" height="200"/>
         </div>
 		<div class="pacman"></div>
-		<div class="dot"></div>
         <div class="marginImage"></div>
         <b-field label="Name User">
           <b-input placeholder="User" v-model="name"></b-input>
@@ -70,9 +69,9 @@
         <b-button class="is-link" :disabled="user.user2 === ''" @click="launchGame"> Start Game</b-button>
         </div>
       </div>
-      <div id="grip" class="hide">
-      <div id="game"></div>
-       <div id="score"></div>
+      <div id="grid" class="hide">
+        <div id="game"></div>
+        <div id="score"></div>
       </div>
     </div>
   </q-page>

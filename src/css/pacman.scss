@@ -14,7 +14,7 @@ $time: 1.0s;
 @include animation(up) {
   0%, 100% {
     transform: rotate(0);
-  } 
+  }
   50% {
     transform: rotate(-30deg);
   }
@@ -23,7 +23,7 @@ $time: 1.0s;
 @include animation(down) {
   0%, 100% {
     transform: rotate(0);
-  } 
+  }
   50% {
     transform: rotate(30deg);
   }
@@ -32,7 +32,7 @@ $time: 1.0s;
 @include animation(r-to-l) {
   100% {
     margin-left: -1px;
-  } 
+  }
 }
 
 @mixin use-animation($name, $time){
@@ -47,7 +47,7 @@ body{
   background: #000;
   overflow: hidden;
   margin: 0;
-  
+
   .pacman:before, .pacman:after{
     content: '';
     position: absolute;
@@ -61,29 +61,11 @@ body{
     border-radius: $height $height 0 0;
     @include use-animation(up, $time);
   }
-  
+
   .pacman:after {
     margin-top: -1px;
     border-radius: 0 0 $height $height;
     @include use-animation(down, $time);
-  } 
-  
-  .dot{
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: $height/5;
-    height: $height/5;
-    margin-top: - $height/10;
-    margin-left: 30px;
-    border-radius: 50%;
-    background: $grey;
-    z-index: -1;
-    box-shadow: 30px 0 0 $grey,
-                60px 0 0 $grey,
-                90px 0 0 $grey,
-                120px 0 0 $grey,
-                150px 0 0 $grey;
-    @include use-animation(r-to-l, $time);
   }
+
 }
