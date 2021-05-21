@@ -3,20 +3,44 @@
     <div class="container is-max-desktop">
       <div  v-if="page === 0">
         <div class="columns is-centered" >
-          <h1 class="titleHome"> Welcome in SwapMan</h1>
+          <h1 class="titleHome"> Welcome in</h1>
         </div>
         <div class="columns is-centered">
-          <img src="~assets/pacman-hd.png" width="380" height="200"/>
+          <img src="~assets/logo.png" width="700" height="200"/>
         </div>
+		<div class="pacman"></div>
+		<div class="dot"></div>
         <div class="marginImage"></div>
         <b-field label="Name User">
           <b-input placeholder="User" v-model="name"></b-input>
         </b-field>
         <div class="marginImage"></div>
         <div class="columns is-centered">
-          <b-button class="is-link" @click="RedirectionRoom('create')"> Create room</b-button>
-          <div class="marginHome"></div>
-          <b-button class="is-link" @click="RedirectionRoom('join')"> Join room</b-button>
+		<div role='button' class='retro-btn primary nes-pointer' @click="RedirectionRoom('create')">
+			<a class='btn'> 
+			<span class='btn-inner'>
+				<span class='content-wrapper'>
+				<span class='btn-content'>
+					<span class='btn-content-inner' label='Create room'>
+					</span>
+				</span>
+				</span>
+			</span>
+			</a>
+		</div>
+        <div class="marginHome"></div>
+		<div role='button' class='retro-btn success nes-pointer' @click="RedirectionRoom('join')">
+			<a class='btn'> 
+			<span class='btn-inner'>
+				<span class='content-wrapper'>
+				<span class='btn-content'>
+					<span class='btn-content-inner' label='Join room'>
+					</span>
+				</span>
+				</span>
+			</span>
+			</a>
+		</div>
         </div>
       </div>
       <div v-if="page === 1">
@@ -31,20 +55,19 @@
         </section>
       </div>
       <div v-if="page === 2">
-        <span class="lobbyCode" v-if="type === 'user1'"> code lobby : {{room}}</span>
+        <span class="lobbyCode nes-balloon from-left" v-if="type === 'user1'"> code lobby : <span class="nes-text is-primary">{{room}}</span></span>
+		<div class="marginImage"></div>
+		<div class="marginImage"></div>
         <div class="columns is-centered" >
           <h1 class="titleHome"> Welcome in lobby</h1>
         </div>
         <div class="marginImage"></div>
-        <div class="columns is-centered">
-          <h1 class="joueur"> User 1 : {{user.user1}}</h1>
-        </div>
-        <div class="columns is-centered">
-          <h1 class="joueur"> User 2 : {{user.user2}}</h1>
-        </div>
+          <span class="joueur"> User 1 : {{user.user1}}</span>
+		  <br>	
+          <span class="joueur"> User 2 : {{user.user2 != "" ? user.user2: "Wating player 2..."}}</span>
         <div class="marginImage"></div>
         <div class="columns is-centered">
-        <b-button class="is-link" @click="startGame"> Start Game</b-button>
+        <b-button class="is-link" :disabled="user.user2 == ''"  @click="startGame"> Start Game</b-button>
         </div>
       </div>
     </div>
