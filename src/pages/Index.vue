@@ -44,8 +44,12 @@
         </div>
         <div class="marginImage"></div>
         <div class="columns is-centered">
-        <b-button class="is-link" @click="startGame"> Start Game</b-button>
+        <b-button class="is-link" @click="launchGame" id="start-button"> Start Game</b-button>
         </div>
+      </div>
+      <div id="grip" class="hide">
+      <div id="game"></div>
+       <div id="score"></div>
       </div>
     </div>
   </q-page>
@@ -53,10 +57,11 @@
 
 <script>
 import setSocket from 'src/mixins/socket'
+import index from 'src/components/index'
 
 export default {
   name: 'PageIndex',
-  mixins: [setSocket],
+  mixins: [setSocket, index],
   data() {
     return {
       name: "",
@@ -109,11 +114,12 @@ export default {
       })
       this.page = 2
     },
-    startGame()
+    launchGame()
     {
-      if (this.user.user1 != "" && this.user.user2)
+      if (this.user.user1 !== "" && this.user.user2 !== "")
       {
-        alert("Game Start")
+        this.page = 3
+        this.startGame()
       }
       else
       {
@@ -123,3 +129,4 @@ export default {
   }
 }
 </script>
+
