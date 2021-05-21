@@ -48,7 +48,7 @@ body{
   overflow: hidden;
   margin: 0;
 
-  .pacman:before, .pacman:after{
+  .pacman2:before, .pacman2:after{
     content: '';
     position: absolute;
     background: $amber;
@@ -62,7 +62,7 @@ body{
     @include use-animation(up, $time);
   }
 
-  .pacman:after {
+  .pacman2:after {
     margin-top: -1px;
     border-radius: 0 0 $height $height;
     @include use-animation(down, $time);

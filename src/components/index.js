@@ -1,9 +1,9 @@
 import {LEVEL, OBJECT_TYPE} from './setup';
-//import { randomMovement } from './ghostmoves';
+import { randomMovement } from './ghostmoves';
 // Classes
 import GameBoard from './GameBoard';
 import Pacman from './Pacman';
-//import Ghost from './Ghost';
+import Ghost from './Ghost';
 export default {
   data() {
     return {
@@ -29,7 +29,7 @@ export default {
 
       this.gameBoard.showGameStatus(this.gameWin);
 
-      clearInterval(timer);
+      clearInterval(this.timer);
       // Show startbutton
     },
     checkCollision(pacman, ghosts) {
@@ -97,28 +97,27 @@ export default {
       this.scoreTable.innerHTML = this.score;
     },
     startGame() {
-      document.querySelector('#grid').classList.remove("hide")
+      document.querySelector('#game').classList.remove("hide")
       this.gameWin = false;
       this.powerPillActive = false;
       this.score = 0;
       const gameGrid = document.querySelector('#game');
-      let gameBoard = GameBoard.createGameBoard(gameGrid, LEVEL);
-      gameBoard.createGrid(LEVEL);
-      const pacman = new Pacman(2, 287);
-      gameBoard.addObject(287, [OBJECT_TYPE.PACMAN]);
+      this.gameBoard = GameBoard.createGameBoard(gameGrid, LEVEL);
+      this.gameBoard.createGrid(LEVEL);
+      const pacman = new Pacman(1, 287);
+      this.gameBoard.addObject(287, [OBJECT_TYPE.PACMAN]);
       document.addEventListener('keydown', (e) =>
-        pacman.handleKeyInput(e, gameBoard.objectExist.bind(gameBoard))
+        pacman.handleKeyInput(e, this.gameBoard.objectExist.bind(this.gameBoard))
       );
 
-        /*const ghosts = [
+        const ghosts = [
           new Ghost(5, 188, randomMovement, OBJECT_TYPE.BLINKY),
           new Ghost(4, 209, randomMovement, OBJECT_TYPE.PINKY),
           new Ghost(3, 230, randomMovement, OBJECT_TYPE.INKY),
           new Ghost(2, 251, randomMovement, OBJECT_TYPE.CLYDE)
-        ];*/
+        ];
 
-       Gameloop
-       //this.timer = setInterval(() => gameLoop(pacman, ghosts), GLOBAL_SPEED);
+       this.timer = setInterval(() => this.gameLoop(pacman, ghosts), this.GLOBAL_SPEED);
     },
   }
 }

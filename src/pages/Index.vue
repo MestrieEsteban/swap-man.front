@@ -69,10 +69,8 @@
         <b-button class="is-link" :disabled="user.user2 === ''" @click="launchGame"> Start Game</b-button>
         </div>
       </div>
-      <div id="grid" class="hide">
-        <div id="game"></div>
-        <div id="score"></div>
-      </div>
+        <div id="game" class="hide"></div>
+        <div id="score" style="display: none"></div>
     </div>
   </q-page>
 </template>
