@@ -7,14 +7,25 @@
       <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
     </q-header>
     <q-page-container>
+      <b-navbar>
+        <template #brand>
+          <b-navbar-item @click="redirection">
+            <img src="~assets/logo.png">
+          </b-navbar-item>
+        </template>
+      </b-navbar>
+      <div style="margin-top: 1%"></div>
       <router-view/>
-      <div style="margin-top: 5%">
-      </div>
     </q-page-container>
   </q-layout>
 </template>
 <script>
 export default {
   name: 'MainLayout',
+  methods:{
+    redirection(){
+      location.reload()
+    }
+  }
 }
 </script>
