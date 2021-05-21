@@ -8,7 +8,7 @@
         <div class="columns is-centered">
           <img src="~assets/logo.png" width="700" height="200"/>
         </div>
-		<div class="pacman"></div>
+		<div class="pacman2"></div>
         <div class="marginImage"></div>
         <b-field label="Name User">
           <b-input placeholder="User" v-model="name"></b-input>
