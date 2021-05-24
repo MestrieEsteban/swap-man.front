@@ -80,7 +80,7 @@
           <b-button
             class="is-link"
             :disabled="user.user2 === ''"
-            @click="aaaaaaaaaaaaaaaaa()"
+            @click="start()"
           >
             Start Game
           </b-button>
@@ -159,7 +159,7 @@ export default {
       })
       this.page = 2
     },
-    aaaaaaaaaaaaaaaaa() {
+    start() {
       this.socket.emit('startGame', this.room)
     },
     launchGame() {
