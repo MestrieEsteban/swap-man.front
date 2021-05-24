@@ -19,7 +19,7 @@ export default {
 			gameWin: false,
 			powerPillActive: false,
 			powerPillTimer: null,
-      pacx: null,
+			pacx: null,
 		}
 	},
 	mounted() {
@@ -39,12 +39,24 @@ export default {
 
 			if (pacman.pos == player2.pos) {
 				// 	TODO SWAP
+
+				if (this.playerType == "p1") {
+					this.playerType = "p2"
+				}
+				if (this.playerType == "p2") {
+					this.playerType = "p1"
+				}
 				// this.socket.emit("playerSwap", this.room)
 				console.log(pacman);
+				this.gameBoard.removeObject(pacman.pos, [OBJECT_TYPE.PACMAN]);
+				this.gameBoard.removeObject(player2.pos, [OBJECT_TYPE.PACMAN2]);
 				pacman.pos = 287
-				player2.pos = 230
+				player2.pos = 230	
 				this.gameBoard.moveCharacter(pacman);
 				this.gameBoard.moveCharacter(player2);
+
+				console.log(this.playerType);
+
 
 
 				// console.log("oui");
@@ -75,21 +87,21 @@ export default {
 					this.gameBoard.moveCharacter(pacman);
 				})
 				this.socket.emit("Player2Move", player2, this.room)
-				if(player2.dir)
-				player2.dir.rotation = 0
+				if (player2.dir)
+					player2.dir.rotation = 0
 				this.gameBoard.moveCharacter(player2);
 			}
 			if (this.playerType == "p1") {
 				this.socket.on("Player2Move", (pac) => {
 					player2.changePacman(pac)
 					if (player2.dir)
-					player2.dir.rotation = 0
+						player2.dir.rotation = 0
 					this.gameBoard.moveCharacter(player2);
 				})
 				this.socket.emit("pacmanMove", pacman, this.room)
 				this.gameBoard.moveCharacter(this.pacx);
 			}
-			this.checkCollision(pacx, player2);
+			this.checkCollision(this.pacx, player2);
 			//TODO move player 2
 			// 2. Check Ghost collision on the old positions
 			// 3. Move ghosts

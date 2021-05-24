@@ -86,7 +86,9 @@
           </b-button>
         </div>
       </div>
-      <div id="game" class="hide"></div>
+	  <div class="is-centered">
+      	<div id="game" class="hide"></div>
+	  </div>
       <div id="score" style="display: none;"></div>
     </div>
   </q-page>
