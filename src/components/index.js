@@ -39,13 +39,6 @@ export default {
 
 			if (pacman.pos == player2.pos) {
 				// 	TODO SWAP
-
-				if (this.playerType == "p1") {
-					this.playerType = "p2"
-				}
-				if (this.playerType == "p2") {
-					this.playerType = "p1"
-				}
 				// this.socket.emit("playerSwap", this.room)
 				console.log(pacman);
 				this.gameBoard.removeObject(pacman.pos, [OBJECT_TYPE.PACMAN]);
