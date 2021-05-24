@@ -86,11 +86,17 @@
 }
 
 .wall {
-  border: 1px solid blue;
+  border: 1px solid #233e8b;
 }
 
+
+.lair{
+	 border-top: 1px solid #325288
+}
+
+
 .dot {
-  background: white;
+  background: #a7bbc7;
   border: 8px solid black;
   border-radius: 50%;
 }
@@ -132,6 +138,38 @@
   top: 5px;
   border: 2px solid white;
 }
+.ghostman {
+	background-color: red;
+  position: relative;
+  border-radius: 10px 10px 2px 2px;
+  border: none;
+}
+
+.ghostman::before {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: black;
+  border-radius: 50%;
+  left: 3px;
+  top: 5px;
+  border: 2px solid white;
+}
+
+.ghostman::after {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: black;
+  border-radius: 50%;
+  right: 3px;
+  top: 5px;
+  border: 2px solid white;
+}
 
 .scared {
   background: blue !important;
@@ -154,7 +192,7 @@
 }
 
 .pacman {
-  background: yellow;
+  background: #F2C037;
   border: none;
   border-radius: 50%;
   clip-path: polygon(
