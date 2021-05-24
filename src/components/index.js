@@ -18,7 +18,8 @@ export default {
 			timer: null,
 			gameWin: false,
 			powerPillActive: false,
-			powerPillTimer: null
+			powerPillTimer: null,
+      pacx: null,
 		}
 	},
 	mounted() {
@@ -66,7 +67,7 @@ export default {
 			}
 		},
 		gameLoop(pacman, ghosts, player2) {
-			var pacx = pacman
+			this.pacx = pacman
 			// 1. Move Pacman
 			if (this.playerType == "p2") {
 				this.socket.on("pacmanMove", (pac) => {
@@ -86,7 +87,7 @@ export default {
 					this.gameBoard.moveCharacter(player2);
 				})
 				this.socket.emit("pacmanMove", pacman, this.room)
-				this.gameBoard.moveCharacter(pacx);
+				this.gameBoard.moveCharacter(this.pacx);
 			}
 			this.checkCollision(pacx, player2);
 			//TODO move player 2
@@ -95,23 +96,23 @@ export default {
 			//ghosts.forEach((ghost) => this.gameBoard.moveCharacter(ghost));
 			// 4. Do a new ghost collision check on the new positions
 			// 5. Check if Pacman eats a dot
-			if (this.gameBoard.objectExist(pacx.pos, OBJECT_TYPE.DOT)) {
+			if (this.gameBoard.objectExist(this.pacx.pos, OBJECT_TYPE.DOT)) {
 
-				this.gameBoard.removeObject(pacx.pos, [OBJECT_TYPE.DOT]);
+				this.gameBoard.removeObject(this.pacx.pos, [OBJECT_TYPE.DOT]);
 				// Remove a dot
 				this.gameBoard.dotCount--;
 				// Add Score
 				//this.score += 10;
 			}
 			// 6. Check if Pacman eats a power pill
-			// ? A voir + tard 
+			// ? A voir + tard
 			// ? if (this.gameBoard.objectExist(pacman.pos, OBJECT_TYPE.PILL)) {
- 
+
 			// ? 	this.gameBoard.removeObject(pacman.pos, [OBJECT_TYPE.PILL]);
 
 			// ? 	pacman.powerPill = true;
 			// ? 	//this.score += 50;
- 
+
 			// ? 	clearTimeout(this.powerPillTimer);
 			// ? 	this.powerPillTimer = setTimeout(
 			// ? 		() => (pacman.powerPill = false),
@@ -126,7 +127,7 @@ export default {
 			// 8. Check if all dots have been eaten
 			if (this.gameBoard.dotCount === 0) {
 				this.gameWin = true;
-				this.gameOver(pacx, this.gameGrid);
+				this.gameOver(this.pacx, this.gameGrid);
 			}
 			// 9. Show new score
 			document.querySelector('#score').innerHTML = this.score;
