@@ -89,11 +89,9 @@
   border: 1px solid #233e8b;
 }
 
-
-.lair{
-	 border-top: 1px solid #325288
+.lair {
+  border-top: 1px solid #325288;
 }
-
 
 .dot {
   background: #a7bbc7;
@@ -139,7 +137,7 @@
   border: 2px solid white;
 }
 .ghostman {
-	background-color: red;
+  background-color: red;
   position: relative;
   border-radius: 10px 10px 2px 2px;
   border: none;
@@ -169,6 +167,7 @@
   right: 3px;
   top: 5px;
   border: 2px solid white;
+
 }
 
 .scared {
@@ -192,31 +191,32 @@
 }
 
 .pacman {
-  background: #F2C037;
+  background: #f2c037;
   border: none;
   border-radius: 50%;
   clip-path: polygon(
-      0 0,
-      20px 0,
-      20px -5px,
-      8px 10px,
-      20px 25px,
-      20px 20px,
-      0 20px
+    0 0,
+    20px 0,
+    20px -5px,
+    8px 10px,
+    20px 25px,
+    20px 20px,
+    0 20px
   );
-  animation: chew 0.2s linear forwards infinite;
+  animation: chew 0.3s linear forwards infinite;
 }
+
 
 @keyframes chew {
   50% {
     clip-path: polygon(
-        0 0,
-        20px 0,
-        20px 10px,
-        8px 10px,
-        20px 10px,
-        20px 20px,
-        0 20px
+      0 0,
+      20px 0,
+      20px 10px,
+      8px 10px,
+      20px 10px,
+      20px 20px,
+      0 20px
     );
   }
 }

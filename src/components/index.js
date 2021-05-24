@@ -34,24 +34,35 @@ export default {
 			clearInterval(this.timer);
 			// Show startbutton
 		},
-		checkCollision(pacman, ghosts) {
-			const collidedGhost = ghosts.find((ghost) => pacman.pos === ghost.pos);
+		checkCollision(pacman, player2) {
 
-			if (collidedGhost) {
-				if (pacman.powerPill) {
-					this.gameBoard.removeObject(collidedGhost.pos, [
-						OBJECT_TYPE.GHOST,
-						OBJECT_TYPE.SCARED,
-						collidedGhost.name
-					]);
-					collidedGhost.pos = collidedGhost.startPos;
-					this.score += 100;
-				} else {
-					//this.gameBoard.removeObject(pacman.pos, [OBJECT_TYPE.PACMAN]);
-					//this.gameBoard.rotateDiv(pacman.pos, 0);
-					//this.gameOver(pacman, this.gameGrid);
-					//TODO SWAP
-				}
+			if (pacman.pos == player2.pos) {
+				// 	TODO SWAP
+				// this.socket.emit("playerSwap", this.room)
+				console.log(pacman);
+				pacman.pos = 287
+				player2.pos = 230
+				this.gameBoard.moveCharacter(pacman);
+				this.gameBoard.moveCharacter(player2);
+
+
+				// console.log("oui");
+
+
+
+				// if (pacman.powerPill) {
+				// 	this.gameBoard.removeObject(collidedGhost.pos, [
+				// 		OBJECT_TYPE.GHOST,
+				// 		OBJECT_TYPE.SCARED,
+				// 		collidedGhost.name
+				// 	]);
+				// 	collidedGhost.pos = collidedGhost.startPos;
+				// 	his.score += 100;
+				// } else {
+				// this.gameBoard.removeObject(pacman.pos, [OBJECT_TYPE.PACMAN]);
+				// this.gameBoard.rotateDiv(pacman.pos, 0);
+				// this.gameOver(pacman, this.gameGrid);
+				// }
 			}
 		},
 		gameLoop(pacman, ghosts, player2) {
@@ -63,19 +74,22 @@ export default {
 					this.gameBoard.moveCharacter(pacman);
 				})
 				this.socket.emit("Player2Move", player2, this.room)
+				if(player2.dir)
+				player2.dir.rotation = 0
 				this.gameBoard.moveCharacter(player2);
 			}
 			if (this.playerType == "p1") {
 				this.socket.on("Player2Move", (pac) => {
 					player2.changePacman(pac)
+					if (player2.dir)
+					player2.dir.rotation = 0
 					this.gameBoard.moveCharacter(player2);
 				})
 				this.socket.emit("pacmanMove", pacman, this.room)
 				this.gameBoard.moveCharacter(pacx);
 			}
-			this.checkCollision(pacx, ghosts);
+			this.checkCollision(pacx, player2);
 			//TODO move player 2
-			this.checkCollision(pacx, ghosts);
 			// 2. Check Ghost collision on the old positions
 			// 3. Move ghosts
 			//ghosts.forEach((ghost) => this.gameBoard.moveCharacter(ghost));
@@ -126,9 +140,9 @@ export default {
 			this.gameBoard = GameBoard.createGameBoard(gameGrid, LEVEL);
 			this.gameBoard.createGrid(LEVEL);
 			const pacman = new Pacman(1, 287);
-			const player2 = new Player2(1, 186);
+			const player2 = new Player2(1, 230);
 			this.gameBoard.addObject(287, [OBJECT_TYPE.PACMAN]);
-			this.gameBoard.addObject(186, [OBJECT_TYPE.PACMAN2]);
+			this.gameBoard.addObject(230, [OBJECT_TYPE.PACMAN2]);
 			document.addEventListener('keydown', (e) =>
 				pacman.handleKeyInput(e, this.gameBoard.objectExist.bind(this.gameBoard))
 			);
