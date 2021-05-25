@@ -88,6 +88,9 @@
 .wall {
   border: 1px solid #233e8b;
 }
+.wallGhost {
+  border: 1px solid #b84230;
+}
 
 .lair {
   border-top: 1px solid #325288;
@@ -137,7 +140,7 @@
   border: 2px solid white;
 }
 .ghostman {
-  background-color: red;
+  background-color: #cf4040;
   position: relative;
   border-radius: 10px 10px 2px 2px;
   border: none;

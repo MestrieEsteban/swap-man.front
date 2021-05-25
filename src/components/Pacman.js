@@ -35,7 +35,8 @@ class Pacman {
 		// Do we collide with a wall?
 		if (
 			objectExist(nextMovePos, OBJECT_TYPE.WALL) ||
-			objectExist(nextMovePos, OBJECT_TYPE.GHOSTLAIR)
+			objectExist(nextMovePos, OBJECT_TYPE.GHOSTLAIR) ||
+			objectExist(nextMovePos, OBJECT_TYPE.WALLGHOST)
 		) {
 			nextMovePos = this.pos;
 		}
