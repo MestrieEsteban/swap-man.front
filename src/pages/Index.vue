@@ -91,6 +91,9 @@
 	  </div>
       <div id="score" style="display: none;"></div>
     </div>
+	<div v-if="swapTime === true">
+		<span>Swap !</span>
+	</div>
   </q-page>
 </template>
 
@@ -110,6 +113,7 @@ export default {
       user: {},
       page: 0,
       playerType: '',
+	  swapTime: false,
     }
   },
   mounted() {

@@ -20,11 +20,18 @@ export default {
 			powerPillActive: false,
 			powerPillTimer: null,
 			pacx: null,
+			isSwap: false,
 		}
 	},
-	mounted() {
+	beforemounted() {
+		this.colls()
 	},
 	methods: {
+		colls() {
+			this.socket.on("swap", () => {
+				console.log("oui");
+			})
+		},
 		gameOver(pacman, grid) {
 			document.removeEventListener('keydown', (e) =>
 				pacman.handleKeyInput(e, this.gameBoard.objectExist.bind(this.gameBoard))
@@ -38,20 +45,21 @@ export default {
 		checkCollision(pacman, player2) {
 
 			if (pacman.pos == player2.pos) {
-				// 	TODO SWAP
-				// this.socket.emit("playerSwap", this.room)
-				// console.log(pacman);
+				var audio = new Audio('https://vgmsite.com/soundtracks/pac-man-game-sound-effects/kfxtrstc/Fruit.mp3');
+				audio.play();
 				this.gameBoard.removeObject(pacman.pos, [OBJECT_TYPE.PACMAN]);
 				this.gameBoard.removeObject(player2.pos, [OBJECT_TYPE.PACMAN2]);
-				pacman.pos = 287
-				player2.pos = 230	
-				this.gameBoard.moveCharacter(pacman);
-				this.gameBoard.moveCharacter(player2);
-				if(this.playerType == "p1")
-					this.playerType = "p2"
-				else
-					this.playerType = "p1"
+				this.isSwap = true
+				//this.socket.emit("swap", this.room)
 
+				// this.socket.emit("playerSwap", this.room)
+				// console.log(pacman);
+				// this.gameBoard.removeObject(pacman.pos, [OBJECT_TYPE.PACMAN]);
+				// this.gameBoard.removeObject(player2.pos, [OBJECT_TYPE.PACMAN2]);
+				// pacman.pos = 287
+				// player2.pos = 230	
+				// this.gameBoard.moveCharacter(pacman);
+				// this.gameBoard.moveCharacter(player2);
 
 				// console.log("oui");
 
@@ -70,38 +78,60 @@ export default {
 				// }
 			}
 		},
-		gameLoop(pacman, ghosts, player2) {
-			this.pacx = pacman
-			// 1. Move Pacman
-			this.checkCollision(this.pacx, player2);
-			if (this.playerType == "p2") {
-				this.socket.on("pacmanMove", (pac) => {
-					pacman.changePacman(pac)
-					this.gameBoard.moveCharacter(pacman);
-					this.checkCollision(this.pacx, player2);
-
-				})
-				this.socket.emit("Player2Move", player2, this.room)
-				if (player2.dir)
-					player2.dir.rotation = 0
-				this.gameBoard.moveCharacter(player2);
-				this.checkCollision(this.pacx, player2);
-
+		wait(ms) {
+			var start = new Date().getTime();
+			var end = start;
+			while (end < start + ms) {
+				end = new Date().getTime();
 			}
-			this.checkCollision(this.pacx, player2);
-			if (this.playerType == "p1") {
-				this.socket.on("Player2Move", (pac) => {
-					player2.changePacman(pac)
+		},
+		showSwap() {
+			this.swapTime = true
+			setTimeout(function () {
+				this.swapTime = false
+			}, 5000);
+		},
+		gameLoop(pacman, ghosts, player2) {
+
+			this.pacx = pacman
+			this.checkCollision(pacman, player2)
+			if (this.isSwap) {
+				
+				pacman.pos = 287
+				player2.pos = 230
+				this.gameBoard.moveCharacter(pacman);
+				this.gameBoard.moveCharacter(player2);
+				this.gameBoard.showSwapStatus();
+				setTimeout(() => { this.gameBoard.removeSwapStatus(); }, 2000);
+
+				if (this.playerType == "p1")
+					this.playerType = "p2"
+				else
+					this.playerType = "p1"
+				this.isSwap = false
+			} else {
+
+				if (this.playerType == "p2") {
+					this.socket.on("pacmanMove", (pac) => {
+						pacman.changePacman(pac)
+						this.gameBoard.moveCharacter(pacman);
+					})
+					this.socket.emit("Player2Move", player2, this.room)
 					if (player2.dir)
 						player2.dir.rotation = 0
 					this.gameBoard.moveCharacter(player2);
-					this.checkCollision(this.pacx, player2);
-
-				})
-				this.socket.emit("pacmanMove", pacman, this.room)
-				this.gameBoard.moveCharacter(this.pacx);
+				}
+				if (this.playerType == "p1") {
+					this.socket.on("Player2Move", (pac) => {
+						player2.changePacman(pac)
+						if (player2.dir)
+							player2.dir.rotation = 0
+						this.gameBoard.moveCharacter(player2);
+					})
+					this.socket.emit("pacmanMove", pacman, this.room)
+					this.gameBoard.moveCharacter(this.pacx);
+				}
 			}
-			this.checkCollision(this.pacx, player2);
 			//TODO move player 2
 			// 2. Check Ghost collision on the old positions
 			// 3. Move ghosts
@@ -141,8 +171,10 @@ export default {
 				this.gameWin = true;
 				this.gameOver(this.pacx, this.gameGrid);
 			}
+
 			// 9. Show new score
 			document.querySelector('#score').innerHTML = this.score;
+
 		},
 		startGame() {
 			document.querySelector('#game').classList.remove("hide")
