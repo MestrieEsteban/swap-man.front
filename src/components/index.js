@@ -6,6 +6,9 @@ import GameBoard from './GameBoard';
 import Pacman from './Pacman';
 import Player2 from './Player2';
 import Ghost from './Ghost';
+import fruit from '../assets/sounds/Fruit.mp3'
+import intro from '../assets/sounds/Intro.mp3'
+import munsh from '../assets/sounds/munch.mp3'
 export default {
 	data() {
 		return {
@@ -37,16 +40,18 @@ export default {
 				pacman.handleKeyInput(e, this.gameBoard.objectExist.bind(this.gameBoard))
 			);
 
-			this.gameBoard.showGameStatus(this.gameWin);
+			this.gameBoard.showGameStatus(this.gameWin, this.playerType, this.user, this.name);
 
 			clearInterval(this.timer);
-			// Show startbutton
+		},
+		playAudio(sound) {
+			const audio = new Audio(sound);
+			audio.play();
 		},
 		checkCollision(pacman, player2) {
 
 			if (pacman.pos == player2.pos) {
-				var audio = new Audio('https://vgmsite.com/soundtracks/pac-man-game-sound-effects/kfxtrstc/Fruit.mp3');
-				audio.play();
+				this.playAudio(fruit)
 				this.gameBoard.removeObject(pacman.pos, [OBJECT_TYPE.PACMAN]);
 				this.gameBoard.removeObject(player2.pos, [OBJECT_TYPE.PACMAN2]);
 				this.isSwap = true
@@ -139,7 +144,7 @@ export default {
 			// 4. Do a new ghost collision check on the new positions
 			// 5. Check if Pacman eats a dot
 			if (this.gameBoard.objectExist(this.pacx.pos, OBJECT_TYPE.DOT)) {
-
+				this.playAudio(munsh);
 				this.gameBoard.removeObject(this.pacx.pos, [OBJECT_TYPE.DOT]);
 				// Remove a dot
 				this.gameBoard.dotCount--;
@@ -178,6 +183,7 @@ export default {
 		},
 		startGame() {
 			document.querySelector('#game').classList.remove("hide")
+			this.playAudio(intro)
 			this.gameWin = false;
 			this.powerPillActive = false;
 			this.score = 0;
@@ -195,7 +201,7 @@ export default {
 				player2.handleKeyInput(e, this.gameBoard.objectExist.bind(this.gameBoard))
 			);
 			const ghosts = [
-				new Ghost(5, 187, randomMovement, OBJECT_TYPE.BLINKY),
+				new Ghost(5, 187, randomMovement, OBJECT_TYPE.PINKY),
 			];
 
 			this.timer = setInterval(() => this.gameLoop(pacman, ghosts, player2), this.GLOBAL_SPEED);
