@@ -81,7 +81,7 @@
         </section>
       </div>
       <div v-if="page === 2">
-        <span class="lobbyCode nes-balloon from-left" v-if="type === 'user1'">
+        <span class="lobbyCode nes-balloon from-left">
           code lobby :
           <span class="nes-text is-primary">{{ room }}</span>
         </span>
