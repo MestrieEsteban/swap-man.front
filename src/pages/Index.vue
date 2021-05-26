@@ -1,9 +1,15 @@
 <template>
   <q-page>
-    <div class="container is-max-desktop">
+      <!--<div id="fond">
+          <img src="~assets/arcade.jpg" alt="fond" style="position:absolute; width:100%; height:100%;"/>
+      </div>-->
+    <div class="container is-max-desktop">    
       <div v-if="page === 0">
         <div class="columns is-centered">
           <h1 class="titleHome">Welcome in</h1>
+          <audio autoplay>
+                <source src="~assets/derezzed.mp4" type="audio/mp4">
+          </audio>
         </div>
         <div class="columns is-centered">
           <img src="~assets/logo.png" width="700" height="200" />
@@ -49,6 +55,9 @@
         </div>
       </div>
       <div v-if="page === 1">
+          <audio autoplay>
+                <source src="~assets/the-son-of-flynn.mp4" type="audio/mp4">
+          </audio>
         <div class="columns is-centered">
           <h1 class="titleHome">Join a room</h1>
         </div>
@@ -60,6 +69,9 @@
         </section>
       </div>
       <div v-if="page === 2">
+          <audio autoplay>
+                <source src="~assets/the-son-of-flynn.mp4" type="audio/mp4">
+          </audio>
         <span class="lobbyCode nes-balloon from-left" v-if="type === 'user1'">
           code lobby :
           <span class="nes-text is-primary">{{ room }}</span>
