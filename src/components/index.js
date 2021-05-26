@@ -82,8 +82,8 @@ export default {
 		},
 		wait(ms) {
 			this.start = new Date().getTime();
-			this.end = start;
-			while (end < start + ms) {
+			this.end = this.start;
+			while (this.end < this.start + ms) {
 				this.end = new Date().getTime();
 			}
 		},
