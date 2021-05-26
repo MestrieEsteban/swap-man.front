@@ -129,6 +129,9 @@
       class="nes-container with-title is-centered"
       style="max-width: 980px; margin: 0 auto;"
     >
+      <audio autoplay>
+         <source src="~assets/solar-sailer-from.mp4" type="audio/mp4"> 
+      </audio>
       <h1 class="title">How to play ?</h1>
       <div class="marginImage"></div>
       <div class="columns is-centered">
