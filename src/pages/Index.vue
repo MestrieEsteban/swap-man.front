@@ -90,7 +90,7 @@
           <audio autoplay>
                 <source src="~assets/the-son-of-flynn.mp4" type="audio/mp4">
           </audio>
-        <span class="lobbyCode nes-balloon from-left" v-if="type === 'user1'">
+        <span class="lobbyCode nes-balloon from-left">
           code lobby :
           <span class="nes-text is-primary">{{ room }}</span>
         </span>
