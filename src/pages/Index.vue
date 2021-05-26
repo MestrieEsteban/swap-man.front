@@ -1,9 +1,6 @@
 <template>
-  <q-page>
-      <!--<div id="fond">
-          <img src="~assets/arcade.jpg" alt="fond" style="position:absolute; width:100%; height:100%;"/>
-      </div>-->
-    <div class="container is-max-desktop">    
+  <q-page style="min-height: 10px;">
+    <div class="container is-max-desktop">
       <div v-if="page === 0">
         <div class="columns is-centered">
           <h1 class="titleHome">Welcome in</h1>
@@ -53,6 +50,27 @@
             </a>
           </div>
         </div>
+        <div class="marginImage"></div>
+        <div class="columns is-centered">
+          <div
+            role="button"
+            class="retro-btn secondary nes-pointer"
+            @click="howToPlay()"
+          >
+            <a class="btn">
+              <span class="btn-inner">
+                <span class="content-wrapper">
+                  <span class="btn-content">
+                    <span
+                      class="btn-content-inner"
+                      label="How to play ?"
+                    ></span>
+                  </span>
+                </span>
+              </span>
+            </a>
+          </div>
+        </div>
       </div>
       <div v-if="page === 1">
           <audio autoplay>
@@ -92,20 +110,105 @@
           <b-button
             class="is-link"
             :disabled="user.user2 === ''"
-            @click="start()"
+            @click="launchRoom()"
           >
             Start Game
           </b-button>
         </div>
       </div>
-	  <div class="is-centered">
-      	<div id="game" class="hide"></div>
-	  </div>
-      <div id="score" style="display: none;"></div>
+      <div class="is-centered">
+        <div id="game" class="hide"></div>
+      </div>
     </div>
-	<div v-if="swapTime === true">
-		<span>Swap !</span>
-	</div>
+    <div v-if="swapTime === true">
+      <span>Swap !</span>
+    </div>
+
+    <div
+      v-if="page === 4"
+      class="nes-container with-title is-centered"
+      style="max-width: 980px; margin: 0 auto;"
+    >
+      <h1 class="title">How to play ?</h1>
+      <div class="marginImage"></div>
+      <div class="columns is-centered">
+        <span>
+          Swap-man is a Pacman clone but in
+          <span class="grad1">Multiplayer</span>
+          !
+          <br />
+          Playable with two players with a lobby system
+          <br />
+          Create a lobby and send the code to your friend !
+        </span>
+      </div>
+      <div class="columns is-centered">
+        <span class="lobbyCode nes-balloon from-left">
+          code lobby :
+          <span class="nes-text is-primary">VS5fe</span>
+        </span>
+      </div>
+      <div class="marginImage"></div>
+
+      <div class="columns is-centered">
+        <span>
+          The goal of the game is to finish the game as Pacman
+        </span>
+      </div>
+      <br />
+      <div class="">
+        <span>
+          <span style="color: #f2c037;">Player 1</span>
+          start as a
+          <span style="color: #f2c037;">Pacman</span>,
+           his goal is to avoid being hit by
+          <span style="color: #cf4040;">Player 2</span>
+          and to collect all the marbles on the map
+        </span>
+      </div>
+      <br />
+      <div class="">
+        <span>
+          <span style="color: #cf4040;">Player 2</span>
+          start as a
+          <span style="color: #cf4040;">Ghost</span>,
+          his goal is to chase and hit the
+          <span style="color: #f2c037;">Player 1</span>
+        </span>
+      </div>
+      <br />
+      <div class="">
+        <span>
+          If the
+          <span style="color: #cf4040;">Ghost</span>
+          touche the
+          <span style="color: #f2c037;">Pacman</span>,
+          <br />
+          then a
+          <span class="grad1">SWAP</span>
+          is performed.
+          <br />
+          The
+          <span style="color: #cf4040;">Ghost</span>
+          becomes the
+          <span style="color: #f2c037;">Pacman</span>
+          and vice versa
+        </span>
+      </div>
+      <br />
+      <div class="">
+        <span>
+          <span style="color: #cf4040;">Ghost</span>
+          can cross some red wall present on the map that the
+          <span style="color: #f2c037;">Pacman</span>
+          cannot cross
+        </span>
+      </div>
+      <br />
+      <div class="">
+        <img src="~assets/capture.png" width="400" height="200" />
+      </div>
+    </div>
   </q-page>
 </template>
 
@@ -125,7 +228,7 @@ export default {
       user: {},
       page: 0,
       playerType: '',
-	  swapTime: false,
+      swapTime: false,
     }
   },
   mounted() {
@@ -135,6 +238,9 @@ export default {
     })
   },
   methods: {
+    howToPlay() {
+      this.page = 4
+    },
     getRandomString() {
       const randomChars =
         'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
@@ -177,7 +283,7 @@ export default {
       })
       this.page = 2
     },
-    start() {
+    launchRoom() {
       this.socket.emit('startGame', this.room)
     },
     launchGame() {

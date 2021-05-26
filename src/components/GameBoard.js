@@ -7,15 +7,24 @@ class GameBoard {
 		this.DOMGrid = DOMGrid;
 	}
 
-	showGameStatus(gameWin) {
-		// Create and show game win or game over
+	showGameStatus(gameWin, playerType, user, name) {
 		const div = document.createElement('div');
 		div.classList.add('game-status');
-		div.innerHTML = `${gameWin ? 'WIN!' : 'GAME OVER!'}`;
+		if (playerType === "p1") {
+			div.innerHTML = `${name} ${gameWin ? 'WIN!' : 'GAME OVER!'}`;
+		}
+		 else {
+			if (user.user1 == name) {
+				div.innerHTML = `${user.user2} ${gameWin ? 'WIN!' : 'GAME OVER!'}`;
+			}
+			else {
+				div.innerHTML = `${user.user1} ${gameWin ? 'WIN!' : 'GAME OVER!'}`;
+			}
+			
+		}
 		this.DOMGrid.appendChild(div);
 	}
 	showSwapStatus() {
-		// Create and show game win or game over
 		const div = document.createElement('div');
 		div.classList.add('game-status');
 		div.innerHTML = `Swap !`;
@@ -30,7 +39,6 @@ class GameBoard {
 		this.dotCount = 0;
 		this.grid = [];
 		this.DOMGrid.innerHTML = '';
-		// First set correct amount of columns based on Grid Size and Cell Size
 		this.DOMGrid.style.cssText = `grid-template-columns: repeat(${GRID_SIZE}, ${CELL_SIZE}px);`;
 		level.forEach((square) => {
 			const div = document.createElement('div');
@@ -38,8 +46,6 @@ class GameBoard {
 			div.style.cssText = `width: ${CELL_SIZE}px; height: ${CELL_SIZE}px;`;
 			this.DOMGrid.appendChild(div);
 			this.grid.push(div);
-
-			// Add dots
 			if (CLASS_LIST[square] === OBJECT_TYPE.DOT) this.dotCount++;
 		});
 	}
@@ -51,7 +57,6 @@ class GameBoard {
 	removeObject(pos, classes) {
 		this.grid[pos].classList.remove(...classes);
 	}
-	// Can have an arrow function here cause of this binding
 	objectExist(pos, object) {
 		return this.grid[pos].classList.contains(object);
 	};
@@ -68,9 +73,7 @@ class GameBoard {
 			const { classesToRemove, classesToAdd } = character.makeMove();
 
 			if (character.rotation && nextMovePos !== character.pos) {
-				// Rotate
 				this.rotateDiv(nextMovePos, character.dir.rotation);
-				// Rotate the previous div back
 				this.rotateDiv(character.pos, 0);
 			}
 

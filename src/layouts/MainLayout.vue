@@ -12,8 +12,8 @@
     <q-page-container>
       <b-navbar>
         <template #brand>
-          <b-navbar-item @click="redirection">
-            <img src="~assets/logo.png">
+          <b-navbar-item @click="redirection" class="nes-pointer">
+            <img class="nes-pointer" src="~assets/logo.png">
           </b-navbar-item>
         </template>
       </b-navbar>
@@ -26,9 +26,6 @@
       html, body, pre, code, kbd, samp {
           font-family: "Press Start 2P";
 		-webkit-font-smoothing: none;
-		  margin: 0;
-			height: 100%;
-			overflow: hidden
       }
 	  
     </style>

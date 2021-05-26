@@ -1,20 +1,20 @@
 import { LEVEL, OBJECT_TYPE } from './setup';
-import { randomMovement } from './ghostmoves';
-
 // Classes
 import GameBoard from './GameBoard';
 import Pacman from './Pacman';
 import Player2 from './Player2';
-import Ghost from './Ghost';
+import fruit from '../assets/sounds/Fruit.mp3'
+import intro from '../assets/sounds/Intro.mp3'
+import munsh from '../assets/sounds/munch.mp3'
 export default {
 	data() {
 		return {
 			gameGrid: document.querySelector('#game'),
-			scoreTable: document.querySelector('#score'),
+      start: null,
+      end: null,
 			POWER_PILL_TIME: 10000,
 			GLOBAL_SPEED: 80,
 			gameBoard: null,
-			score: 0,
 			timer: null,
 			gameWin: false,
 			powerPillActive: false,
@@ -37,16 +37,18 @@ export default {
 				pacman.handleKeyInput(e, this.gameBoard.objectExist.bind(this.gameBoard))
 			);
 
-			this.gameBoard.showGameStatus(this.gameWin);
+			this.gameBoard.showGameStatus(this.gameWin, this.playerType, this.user, this.name);
 
 			clearInterval(this.timer);
-			// Show startbutton
+		},
+		playAudio(sound) {
+			const audio = new Audio(sound);
+			audio.play();
 		},
 		checkCollision(pacman, player2) {
 
 			if (pacman.pos == player2.pos) {
-				var audio = new Audio('https://vgmsite.com/soundtracks/pac-man-game-sound-effects/kfxtrstc/Fruit.mp3');
-				audio.play();
+				this.playAudio(fruit)
 				this.gameBoard.removeObject(pacman.pos, [OBJECT_TYPE.PACMAN]);
 				this.gameBoard.removeObject(player2.pos, [OBJECT_TYPE.PACMAN2]);
 				this.isSwap = true
@@ -57,7 +59,7 @@ export default {
 				// this.gameBoard.removeObject(pacman.pos, [OBJECT_TYPE.PACMAN]);
 				// this.gameBoard.removeObject(player2.pos, [OBJECT_TYPE.PACMAN2]);
 				// pacman.pos = 287
-				// player2.pos = 230	
+				// player2.pos = 230
 				// this.gameBoard.moveCharacter(pacman);
 				// this.gameBoard.moveCharacter(player2);
 
@@ -79,10 +81,10 @@ export default {
 			}
 		},
 		wait(ms) {
-			var start = new Date().getTime();
-			var end = start;
-			while (end < start + ms) {
-				end = new Date().getTime();
+			this.start = new Date().getTime();
+			this.end = this.start;
+			while (this.end < this.start + ms) {
+				this.end = new Date().getTime();
 			}
 		},
 		showSwap() {
@@ -91,12 +93,12 @@ export default {
 				this.swapTime = false
 			}, 5000);
 		},
-		gameLoop(pacman, ghosts, player2) {
+		gameLoop(pacman, player2) {
 
 			this.pacx = pacman
 			this.checkCollision(pacman, player2)
 			if (this.isSwap) {
-				
+
 				pacman.pos = 287
 				player2.pos = 230
 				this.gameBoard.moveCharacter(pacman);
@@ -133,18 +135,12 @@ export default {
 				}
 			}
 			//TODO move player 2
-			// 2. Check Ghost collision on the old positions
-			// 3. Move ghosts
-			//ghosts.forEach((ghost) => this.gameBoard.moveCharacter(ghost));
-			// 4. Do a new ghost collision check on the new positions
-			// 5. Check if Pacman eats a dot
+			// Check if Pacman eats a dot
 			if (this.gameBoard.objectExist(this.pacx.pos, OBJECT_TYPE.DOT)) {
-
+				this.playAudio(munsh);
 				this.gameBoard.removeObject(this.pacx.pos, [OBJECT_TYPE.DOT]);
 				// Remove a dot
 				this.gameBoard.dotCount--;
-				// Add Score
-				//this.score += 10;
 			}
 			// 6. Check if Pacman eats a power pill
 			// ? A voir + tard
@@ -171,16 +167,12 @@ export default {
 				this.gameWin = true;
 				this.gameOver(this.pacx, this.gameGrid);
 			}
-
-			// 9. Show new score
-			document.querySelector('#score').innerHTML = this.score;
-
 		},
 		startGame() {
 			document.querySelector('#game').classList.remove("hide")
+			this.playAudio(intro)
 			this.gameWin = false;
 			this.powerPillActive = false;
-			this.score = 0;
 			const gameGrid = document.querySelector('#game');
 			this.gameBoard = GameBoard.createGameBoard(gameGrid, LEVEL);
 			this.gameBoard.createGrid(LEVEL);
@@ -194,11 +186,8 @@ export default {
 			document.addEventListener('keydown', (e) =>
 				player2.handleKeyInput(e, this.gameBoard.objectExist.bind(this.gameBoard))
 			);
-			const ghosts = [
-				new Ghost(5, 187, randomMovement, OBJECT_TYPE.BLINKY),
-			];
 
-			this.timer = setInterval(() => this.gameLoop(pacman, ghosts, player2), this.GLOBAL_SPEED);
+			this.timer = setInterval(() => this.gameLoop(pacman, player2), this.GLOBAL_SPEED);
 		},
 	}
 }
