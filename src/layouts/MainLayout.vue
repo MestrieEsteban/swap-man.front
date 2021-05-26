@@ -30,7 +30,8 @@
           <b-navbar-item tag="div">
 			<i v-on:click="play" v-if='pause == "play"' class="nes-icon pause"></i>
 			<i v-on:click="play" v-if='pause == "pause"' class="nes-icon play"></i>
-            <audio ref="audioElm" autoplay src="~assets/Chiptune Fantasy.mp3"></audio>
+            <audio ref="audioElm" autoplay loop src="~assets/Chiptune Fantasy.mp3">
+			</audio>
           </b-navbar-item>
         </template>
       </b-navbar>
@@ -58,7 +59,15 @@ export default {
 		  pause: "play"
 	  }
   },
+  mounted(){
+	  this.startplay()
+  },
   methods: {
+	startplay(){
+		var a = this.$refs.audioElm;
+	a.play();
+	this.pause = "play"
+	},
     redirection() {
       location.reload()
     },

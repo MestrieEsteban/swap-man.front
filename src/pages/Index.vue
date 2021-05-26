@@ -107,8 +107,16 @@
           </b-button>
         </div>
       </div>
-      <div class="is-centered">
+      <div class="columns is-centered">
         <div id="game" class="hide"></div>
+      </div>
+      <div class="columns is-centered">
+        <div v-if="playerType === 'p1' && page == 3">
+          <span style="color: #f2c037;">Pacman</span>
+        </div>
+        <div v-if="playerType === 'p2' && page == 3">
+          <span style="color: #cf4040;">Ghost</span>
+        </div>
       </div>
     </div>
     <div v-if="swapTime === true">
@@ -120,7 +128,6 @@
       class="nes-container with-title is-centered"
       style="max-width: 980px; margin: 0 auto;"
     >
-
       <h1 class="title">How to play ?</h1>
       <div class="marginImage"></div>
       <div class="columns is-centered">
@@ -152,8 +159,8 @@
         <span>
           <span style="color: #f2c037;">Player 1</span>
           start as a
-          <span style="color: #f2c037;">Pacman</span>,
-           his goal is to avoid being hit by
+          <span style="color: #f2c037;">Pacman</span>
+          , his goal is to avoid being hit by
           <span style="color: #cf4040;">Player 2</span>
           and to collect all the marbles on the map
         </span>
@@ -163,8 +170,8 @@
         <span>
           <span style="color: #cf4040;">Player 2</span>
           start as a
-          <span style="color: #cf4040;">Ghost</span>,
-          his goal is to chase and hit the
+          <span style="color: #cf4040;">Ghost</span>
+          , his goal is to chase and hit the
           <span style="color: #f2c037;">Player 1</span>
         </span>
       </div>
@@ -174,7 +181,8 @@
           If the
           <span style="color: #cf4040;">Ghost</span>
           touche the
-          <span style="color: #f2c037;">Pacman</span>,
+          <span style="color: #f2c037;">Pacman</span>
+          ,
           <br />
           then a
           <span class="grad1">SWAP</span>

@@ -5,7 +5,6 @@ import Pacman from './Pacman';
 import Player2 from './Player2';
 import fruit from '../assets/sounds/Fruit.mp3'
 import intro from '../assets/sounds/Intro.mp3'
-import munsh from '../assets/sounds/munch.mp3'
 export default {
 	data() {
 		return {
@@ -49,6 +48,8 @@ export default {
 
 			if (pacman.pos == player2.pos) {
 				this.playAudio(fruit)
+				this.gameBoard.removeObject(pacman.pos, [OBJECT_TYPE.PACMAN]);
+				this.gameBoard.removeObject(player2.pos, [OBJECT_TYPE.PACMAN2]);
 				this.gameBoard.removeObject(pacman.pos, [OBJECT_TYPE.PACMAN]);
 				this.gameBoard.removeObject(player2.pos, [OBJECT_TYPE.PACMAN2]);
 				this.isSwap = true
@@ -137,7 +138,6 @@ export default {
 			//TODO move player 2
 			// Check if Pacman eats a dot
 			if (this.gameBoard.objectExist(this.pacx.pos, OBJECT_TYPE.DOT)) {
-				this.playAudio(munsh);
 				this.gameBoard.removeObject(this.pacx.pos, [OBJECT_TYPE.DOT]);
 				// Remove a dot
 				this.gameBoard.dotCount--;
