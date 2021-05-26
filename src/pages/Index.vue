@@ -97,6 +97,34 @@
           User 2 : {{ user.user2 !== '' ? user.user2 : 'Wating player 2...' }}
         </span>
         <div class="marginImage"></div>
+          <b-carousel
+            v-model="carousel"
+            :animated="animated"
+            :autoplay="autoPlay"
+            :pause-info-type="pauseType"
+            :interval="interval"
+            :repeat="repeat"
+			v-if="user.user2 !== ''"
+            @change="changeMap($event)"
+          >
+            <b-carousel-item>
+              <section :class="`hero is-small is-dark`">
+                <div class="hero-body has-text-centered">
+                  <h1 class="title">Map 1</h1>
+                  <img src="~assets/capture.png" width="300" />
+                </div>
+              </section>
+            </b-carousel-item>
+            <b-carousel-item>
+              <section :class="`hero is-small is-dark`">
+                <div class="hero-body has-text-centered">
+                  <h1 class="title">Map 2</h1>
+                  <img src="~assets/map2.png" width="300" />
+                </div>
+              </section>
+            </b-carousel-item>
+          </b-carousel>
+        <div class="marginImage"></div>
         <div class="columns is-centered" v-if="type === 'user1'">
           <b-button
             class="is-link"
@@ -118,6 +146,11 @@
           <span style="color: #cf4040;">Ghost</span>
         </div>
       </div>
+	  <div class="columns is-centered">
+		  <div v-if="powerr === true && page == 3">
+          <span class="grad1">Ghost is scared</span>
+        </div>
+	  </div>
     </div>
     <div v-if="swapTime === true">
       <span>Swap !</span>
@@ -229,6 +262,21 @@ export default {
       page: 0,
       playerType: '',
       swapTime: false,
+	  map: 0,
+	  powerr: false,
+      carousel: 0,
+            animated: 'fade',
+            drag: false,
+            autoPlay: false,
+            pauseHover: false,
+            pauseInfo: false,
+            repeat: false,
+            pauseType: 'is-primary',
+            interval: 3000,
+            carousels: [
+                { title: 'Map 1', color: 'dark', image:"~assets/capture.png"},
+                { title: 'Map 1', color: 'danger', },
+            ]
     }
   },
   mounted() {
@@ -236,11 +284,18 @@ export default {
     this.socket.on('startGame', () => {
       this.launchGame()
     })
+    this.socket.on('changeMap', (map) => {
+      	this.map = map
+    })
   },
   methods: {
     howToPlay() {
       this.page = 4
     },
+	changeMap(map){
+		this.map = map
+		this.socket.emit('changeMap', this.room, map)
+	},
     getRandomString() {
       const randomChars =
         'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'

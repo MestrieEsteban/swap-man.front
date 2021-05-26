@@ -1,4 +1,4 @@
-import { LEVEL, OBJECT_TYPE } from './setup';
+import { LEVEL, LEVEL2, OBJECT_TYPE } from './setup';
 // Classes
 import GameBoard from './GameBoard';
 import Pacman from './Pacman';
@@ -20,6 +20,7 @@ export default {
 			powerPillTimer: null,
 			pacx: null,
 			isSwap: false,
+			isEat: false,
 		}
 	},
 	beforemounted() {
@@ -47,12 +48,6 @@ export default {
 		checkCollision(pacman, player2) {
 
 			if (pacman.pos == player2.pos) {
-				this.playAudio(fruit)
-				this.gameBoard.removeObject(pacman.pos, [OBJECT_TYPE.PACMAN]);
-				this.gameBoard.removeObject(player2.pos, [OBJECT_TYPE.PACMAN2]);
-				this.gameBoard.removeObject(pacman.pos, [OBJECT_TYPE.PACMAN]);
-				this.gameBoard.removeObject(player2.pos, [OBJECT_TYPE.PACMAN2]);
-				this.isSwap = true
 				//this.socket.emit("swap", this.room)
 
 				// this.socket.emit("playerSwap", this.room)
@@ -66,19 +61,19 @@ export default {
 
 				// console.log("oui");
 
-				// if (pacman.powerPill) {
-				// 	this.gameBoard.removeObject(collidedGhost.pos, [
-				// 		OBJECT_TYPE.GHOST,
-				// 		OBJECT_TYPE.SCARED,
-				// 		collidedGhost.name
-				// 	]);
-				// 	collidedGhost.pos = collidedGhost.startPos;
-				// 	his.score += 100;
-				// } else {
-				// this.gameBoard.removeObject(pacman.pos, [OBJECT_TYPE.PACMAN]);
-				// this.gameBoard.rotateDiv(pacman.pos, 0);
-				// this.gameOver(pacman, this.gameGrid);
-				// }
+				if (pacman.powerPill) {
+					this.gameBoard.removeObject(player2.pos, [OBJECT_TYPE.PACMAN2]);
+					this.gameBoard.removeObject(player2.pos, [OBJECT_TYPE.PACMAN2]);
+					this.powerr = false
+					this.isEat = true
+				} else {
+					this.playAudio(fruit)
+					this.gameBoard.removeObject(pacman.pos, [OBJECT_TYPE.PACMAN]);
+					this.gameBoard.removeObject(player2.pos, [OBJECT_TYPE.PACMAN2]);
+					this.gameBoard.removeObject(pacman.pos, [OBJECT_TYPE.PACMAN]);
+					this.gameBoard.removeObject(player2.pos, [OBJECT_TYPE.PACMAN2]);
+					this.isSwap = true
+				}
 			}
 		},
 		wait(ms) {
@@ -112,7 +107,13 @@ export default {
 				else
 					this.playerType = "p1"
 				this.isSwap = false
-			} else {
+			} else if(this.isEat){
+				player2.pos = 230
+				this.gameBoard.moveCharacter(player2);
+				this.isEat = false
+			}
+			
+			else {
 
 				if (this.playerType == "p2") {
 					this.socket.on("pacmanMove", (pac) => {
@@ -143,20 +144,19 @@ export default {
 				this.gameBoard.dotCount--;
 			}
 			// 6. Check if Pacman eats a power pill
-			// ? A voir + tard
-			// ? if (this.gameBoard.objectExist(pacman.pos, OBJECT_TYPE.PILL)) {
-
-			// ? 	this.gameBoard.removeObject(pacman.pos, [OBJECT_TYPE.PILL]);
-
-			// ? 	pacman.powerPill = true;
-			// ? 	//this.score += 50;
-
-			// ? 	clearTimeout(this.powerPillTimer);
-			// ? 	this.powerPillTimer = setTimeout(
-			// ? 		() => (pacman.powerPill = false),
-			// ? 		this.POWER_PILL_TIME
-			// ? 	);
-			// ? }
+			if (this.gameBoard.objectExist(pacman.pos, OBJECT_TYPE.PILL)) {
+				this.gameBoard.removeObject(pacman.pos, [OBJECT_TYPE.PILL]);
+				pacman.powerPill = true;
+				this.powerr = true
+				clearTimeout(this.powerPillTimer);
+				this.powerPillTimer = setTimeout(
+					() => {
+						pacman.powerPill = false
+						this.powerr = false
+					},
+					this.POWER_PILL_TIME
+				);
+			}
 			// 7. Change ghost scare mode depending on powerpill
 			// if (pacman.powerPill !== this.powerPillActive) {
 			// 	this.powerPillActive = pacman.powerPill;
@@ -174,8 +174,14 @@ export default {
 			this.gameWin = false;
 			this.powerPillActive = false;
 			const gameGrid = document.querySelector('#game');
-			this.gameBoard = GameBoard.createGameBoard(gameGrid, LEVEL);
-			this.gameBoard.createGrid(LEVEL);
+			let level
+			if (this.map === 0) {
+				level = LEVEL
+			} else {
+				level = LEVEL2
+			}
+			this.gameBoard = GameBoard.createGameBoard(gameGrid, level);
+			this.gameBoard.createGrid(level);
 			const pacman = new Pacman(1, 287);
 			const player2 = new Player2(1, 230);
 			this.gameBoard.addObject(287, [OBJECT_TYPE.PACMAN]);
