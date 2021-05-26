@@ -10,7 +10,6 @@ export default {
 	data() {
 		return {
 			gameGrid: document.querySelector('#game'),
-			scoreTable: document.querySelector('#score'),
       start: null,
       end: null,
 			POWER_PILL_TIME: 10000,
@@ -168,10 +167,6 @@ export default {
 				this.gameWin = true;
 				this.gameOver(this.pacx, this.gameGrid);
 			}
-
-			// 9. Show new score
-			document.querySelector('#score').innerHTML = this.score;
-
 		},
 		startGame() {
 			document.querySelector('#game').classList.remove("hide")
