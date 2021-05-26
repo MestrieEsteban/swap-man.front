@@ -97,33 +97,33 @@
           User 2 : {{ user.user2 !== '' ? user.user2 : 'Wating player 2...' }}
         </span>
         <div class="marginImage"></div>
-          <b-carousel
-            v-model="carousel"
-            :animated="animated"
-            :autoplay="autoPlay"
-            :pause-info-type="pauseType"
-            :interval="interval"
-            :repeat="repeat"
-			v-if="user.user2 !== ''"
-            @change="changeMap($event)"
-          >
-            <b-carousel-item>
-              <section :class="`hero is-small is-dark`">
-                <div class="hero-body has-text-centered">
-                  <h1 class="title">Map 1</h1>
-                  <img src="~assets/capture.png" width="300" />
-                </div>
-              </section>
-            </b-carousel-item>
-            <b-carousel-item>
-              <section :class="`hero is-small is-dark`">
-                <div class="hero-body has-text-centered">
-                  <h1 class="title">Map 2</h1>
-                  <img src="~assets/map2.png" width="300" />
-                </div>
-              </section>
-            </b-carousel-item>
-          </b-carousel>
+        <b-carousel
+          v-model="carousel"
+          :animated="animated"
+          :autoplay="autoPlay"
+          :pause-info-type="pauseType"
+          :interval="interval"
+          :repeat="repeat"
+          v-if="user.user2 !== ''"
+          @change="changeMap($event)"
+        >
+          <b-carousel-item>
+            <section :class="`hero is-small is-dark`">
+              <div class="hero-body has-text-centered">
+                <h1 class="title">Map 1</h1>
+                <img src="~assets/capture.png" width="300" />
+              </div>
+            </section>
+          </b-carousel-item>
+          <b-carousel-item>
+            <section :class="`hero is-small is-dark`">
+              <div class="hero-body has-text-centered">
+                <h1 class="title">Map 2</h1>
+                <img src="~assets/map2.png" width="300" />
+              </div>
+            </section>
+          </b-carousel-item>
+        </b-carousel>
         <div class="marginImage"></div>
         <div class="columns is-centered" v-if="type === 'user1'">
           <b-button
@@ -146,21 +146,23 @@
           <span style="color: #cf4040;">Ghost</span>
         </div>
       </div>
-	  <div class="columns is-centered">
-		  <div v-if="powerr === true && page == 3">
+      <div class="columns is-centered">
+        <div v-if="powerr === true && page == 3">
           <span class="grad1">Ghost is scared</span>
         </div>
-	  </div>
+      </div>
     </div>
     <div v-if="swapTime === true">
       <span>Swap !</span>
     </div>
+      <div class="marginImage"></div>
 
     <div
       v-if="page === 4"
       class="nes-container with-title is-centered"
       style="max-width: 980px; margin: 0 auto;"
     >
+	
       <h1 class="title">How to play ?</h1>
       <div class="marginImage"></div>
       <div class="columns is-centered">
@@ -239,6 +241,23 @@
       </div>
       <br />
       <div class="">
+        <span>
+          <span style="color: #f2c037;">Pacman</span>
+          can eat
+          <span class="grad1">Pill</span>
+          on map which allows him to eat the
+          <span style="color: #cf4040;">Ghost</span>
+          without swap for 5 secondes
+        </span>
+      </div>
+      <br />
+      <div class="">
+        <span>Play with</span>
+        <br />
+        <img src="~assets/key.png" width="150" height="200" />
+      </div>
+      <br />
+      <div class="">
         <img src="~assets/capture.png" width="400" height="200" />
       </div>
     </div>
@@ -262,21 +281,21 @@ export default {
       page: 0,
       playerType: '',
       swapTime: false,
-	  map: 0,
-	  powerr: false,
+      map: 0,
+      powerr: false,
       carousel: 0,
-            animated: 'fade',
-            drag: false,
-            autoPlay: false,
-            pauseHover: false,
-            pauseInfo: false,
-            repeat: false,
-            pauseType: 'is-primary',
-            interval: 3000,
-            carousels: [
-                { title: 'Map 1', color: 'dark', image:"~assets/capture.png"},
-                { title: 'Map 1', color: 'danger', },
-            ]
+      animated: 'fade',
+      drag: false,
+      autoPlay: false,
+      pauseHover: false,
+      pauseInfo: false,
+      repeat: false,
+      pauseType: 'is-primary',
+      interval: 3000,
+      carousels: [
+        { title: 'Map 1', color: 'dark', image: '~assets/capture.png' },
+        { title: 'Map 1', color: 'danger' },
+      ],
     }
   },
   mounted() {
@@ -285,17 +304,17 @@ export default {
       this.launchGame()
     })
     this.socket.on('changeMap', (map) => {
-      	this.map = map
+      this.map = map
     })
   },
   methods: {
     howToPlay() {
       this.page = 4
     },
-	changeMap(map){
-		this.map = map
-		this.socket.emit('changeMap', this.room, map)
-	},
+    changeMap(map) {
+      this.map = map
+      this.socket.emit('changeMap', this.room, map)
+    },
     getRandomString() {
       const randomChars =
         'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'

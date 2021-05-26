@@ -11,7 +11,7 @@ export default {
 			gameGrid: document.querySelector('#game'),
       start: null,
       end: null,
-			POWER_PILL_TIME: 10000,
+			POWER_PILL_TIME: 5000,
 			GLOBAL_SPEED: 80,
 			gameBoard: null,
 			timer: null,
