@@ -110,7 +110,6 @@
       <div class="is-centered">
         <div id="game" class="hide"></div>
       </div>
-      <div id="score" style="display: none;"></div>
     </div>
     <div v-if="swapTime === true">
       <span>Swap !</span>
