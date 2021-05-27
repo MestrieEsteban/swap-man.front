@@ -33,7 +33,6 @@
             <q-media-player
               type="audio"
               ref="audioElements"
-              loop="true"
               hidden
               background-color="black"
               :muted="false"
@@ -63,7 +62,6 @@ samp {
 </style>
 <script>
 import ChiptuneFantasy from '../assets/Chiptune Fantasy.mp3'
-
 export default {
   name: 'MainLayout',
   data(){
