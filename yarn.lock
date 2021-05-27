@@ -1155,10 +1155,30 @@
   resolved "https://registry.yarnpkg.com/@quasar/extras/-/extras-1.10.4.tgz#904ea87a3ee294bc09985651382501c564ca4699"
   integrity sha512-FIXvYZPTKFjBmMb9CNMkEqXTgNppixRLWdaZKKb1qn/CScn+jipPzMBOwCfAFwsNPeAGXTwFT1/xzhLWIbwzAw==
 
+"@quasar/extras@^1.9.17":
+  version "1.10.5"
+  resolved "https://registry.yarnpkg.com/@quasar/extras/-/extras-1.10.5.tgz#5c115c83d5954777f2ce00a256ae085bcb076100"
+  integrity sha512-iBI9bRfomvxfnE2RUYMK0q7tki7Y0I0KMLuxoSEQC0OsOghJ/3ANENyGm1S0AsVMmNYwj0bzQWYVA6KD7/NwHg==
+
 "@quasar/fastclick@1.1.4":
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/@quasar/fastclick/-/fastclick-1.1.4.tgz#21ed3e9a4387dcb43022a08af4ef08a5f1abf159"
   integrity sha512-i9wbyV4iT+v4KhtHJynUFhH5LiEPvAEgSnwMqPN4hf/8uRe82nDl5qP5agrp2el1h0HzyBpbvHaW7NB0BPrtvA==
+
+"@quasar/quasar-app-extension-qmediaplayer@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@quasar/quasar-app-extension-qmediaplayer/-/quasar-app-extension-qmediaplayer-1.2.1.tgz#b9f0ea13c146e1ed92839941fa3bd944ec1f94f8"
+  integrity sha512-93qS5mGMSUkUONMCLp+073aUDU3hyfMwzdXCcsNDsYvS766L0ZU1O2514WxQWK2jTyyCJlbA9j2LxokcvdZDBg==
+  dependencies:
+    "@quasar/quasar-ui-qmediaplayer" "^1.2.1"
+
+"@quasar/quasar-ui-qmediaplayer@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@quasar/quasar-ui-qmediaplayer/-/quasar-ui-qmediaplayer-1.2.1.tgz#44206298345f5c61496be7f5178dc838e40602fe"
+  integrity sha512-/mzc6ybtfT2sxpDE8dpgZFJBklzvwuinODzKVpr/525liZQ8qmUnDivDjrnZVo3BnyQ9gM69uFW22AXtzXpySA==
+  dependencies:
+    "@quasar/extras" "^1.9.17"
+    q-colorize-mixin "^1.0.10"
 
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
@@ -7829,6 +7849,11 @@ pupa@^2.0.1:
   integrity sha512-l1jNAspIBSFqbT+y+5FosojNpVpF94nlI+wDUpqP9enwOTfHx9f0gh5nB96vl+6yTpsJsypeNrwfzPrKuHB41A==
   dependencies:
     escape-goat "^2.0.0"
+
+q-colorize-mixin@^1.0.10:
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/q-colorize-mixin/-/q-colorize-mixin-1.0.10.tgz#f0fbfa2826cbfdaffc5c6851e9949aff311da48a"
+  integrity sha512-pqMSb3mxTps0pfKh2zV/7ukgVvrzQT8+Ic2c3PaTkMI5yGPBbBK+t0SgF1ktBJ0PCYFE1bpK1unK20Z2OlTzlg==
 
 q@^1.1.2:
   version "1.5.1"

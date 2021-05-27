@@ -28,10 +28,16 @@
         </template>
         <template #end>
           <b-navbar-item tag="div">
-			<i v-on:click="play" v-if='pause == "play"' class="nes-icon pause"></i>
-			<i v-on:click="play" v-if='pause == "pause"' class="nes-icon play"></i>
-            <audio ref="audioElm" autoplay loop src="~assets/Chiptune Fantasy.mp3">
-			</audio>
+			<i v-on:click="play" v-if='pause === "play"' class="nes-icon pause"></i>
+			<i v-on:click="play" v-if='pause === "pause"' class="nes-icon play"></i>
+            <q-media-player
+              type="audio"
+              ref="audioElements"
+              hidden
+              :autoplay="true"
+              :show-big-play-button="true"
+              :sources="audio.sources">
+            </q-media-player>
           </b-navbar-item>
         </template>
       </b-navbar>
@@ -52,11 +58,21 @@ samp {
 }
 </style>
 <script>
+import ChiptuneFantasy from '../assets/Chiptune Fantasy.mp3'
+
 export default {
   name: 'MainLayout',
   data(){
 	  return{
 		  pause: "play",
+      audio: {
+        sources: [
+          {
+            src: ChiptuneFantasy,
+            type: 'audio/mp3'
+          }
+        ]
+      }
 	  }
   },
   mounted(){
@@ -65,15 +81,16 @@ export default {
     redirection() {
       location.reload()
     },
-	play: function(event) {
-	  const audio = this.$refs.audioElm
-      if (audio.paused) {
-        audio.play();
-		this.pause = "play"
-      } else {
-        audio.pause();
-		this.pause = "pause"
-      }
+	play: function() {
+    if (this.pause === "play") {
+      this.$refs.audioElements.pause()
+      this.pause = "pause"
+    }
+    else {
+      this.$refs.audioElements.play()
+      this.$refs.audioElements.currentTime = 0;
+      this.pause = "play"
+    }
     }
   },
 }
