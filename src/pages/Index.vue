@@ -310,8 +310,8 @@ export default {
       pauseType: 'is-primary',
       interval: 3000,
       carousels: [
-        { title: 'Map 1', color: 'dark', image: 'img/capture.png' },
-        { title: 'Map 2', color: 'danger', image: 'img/map2.png' },
+        { title: 'Map 1', image: 'https://i.ibb.co/hHVQfx0/capture.png' },
+        { title: 'Map 2', image: 'https://i.ibb.co/qpvLYGv/map2.png' },
       ],
     }
   },
