@@ -97,33 +97,49 @@
           User 2 : {{ user.user2 !== '' ? user.user2 : 'Wating player 2...' }}
         </span>
         <div class="marginImage"></div>
-        <b-carousel
-          v-model="carousel"
-          :animated="animated"
-          :autoplay="autoPlay"
-          :pause-info-type="pauseType"
-          :interval="interval"
-          :repeat="repeat"
-          v-if="user.user2 !== ''"
-          @change="changeMap($event)"
-        >
-          <b-carousel-item>
-            <section :class="`hero is-small is-dark`">
-              <div class="hero-body has-text-centered">
-                <h1 class="title">Map 1</h1>
-                <img src="~assets/capture.png" width="300" />
-              </div>
-            </section>
-          </b-carousel-item>
-          <b-carousel-item>
-            <section :class="`hero is-small is-dark`">
-              <div class="hero-body has-text-centered">
-                <h1 class="title">Map 2</h1>
-                <img src="~assets/map2.png" width="300" />
-              </div>
-            </section>
-          </b-carousel-item>
-        </b-carousel>
+        <div v-if="playerType === 'p1'">
+          <b-carousel
+            v-model="carousel"
+            :animated="animated"
+            :autoplay="autoPlay"
+            :arrow="arrow"
+            :pause-info-type="pauseType"
+            :interval="interval"
+            :repeat="repeat"
+            v-if="user.user2 !== ''"
+            @change="changeMap($event)"
+          >
+            <b-carousel-item v-for="(carousel, i) in carousels" :key="i">
+              <section :class="`hero is-small is-dark`">
+                <div class="hero-body has-text-centered">
+                  <h1 class="title">{{carousel.title}}</h1>
+                  <img :src="carousel.image" width="300" />
+                </div>
+              </section>
+            </b-carousel-item>
+          </b-carousel>
+        </div>
+        <div v-if="playerType === 'p2'">
+          <b-carousel-list
+            v-model="map"
+            :data="carousels"
+            :arrow="arrow"
+            :items-to-show="1"
+            :items-to-list="1"
+            :repeat="repeat"
+            :has-drag="drag"
+            v-if="user.user2 !== ''"
+            @change="changeMap($event)">
+            <template #item="list">
+              <section :class="`hero is-small is-dark`">
+                <div class="hero-body has-text-centered">
+                  <h1 class="title">{{list.title}}</h1>
+                  <img :src="list.image" width="300" />
+                </div>
+              </section>
+            </template>
+          </b-carousel-list>
+        </div>
         <div class="marginImage"></div>
         <div class="columns is-centered" v-if="type === 'user1'">
           <b-button
@@ -162,7 +178,7 @@
       class="nes-container with-title is-centered"
       style="max-width: 980px; margin: 0 auto;"
     >
-	
+
       <h1 class="title">How to play ?</h1>
       <div class="marginImage"></div>
       <div class="columns is-centered">
@@ -282,7 +298,10 @@ export default {
       playerType: '',
       swapTime: false,
       map: 0,
+      itemShow: 0,
+      itemList: 0,
       powerr: false,
+      arrow: null,
       carousel: 0,
       animated: 'fade',
       drag: false,
@@ -293,8 +312,8 @@ export default {
       pauseType: 'is-primary',
       interval: 3000,
       carousels: [
-        { title: 'Map 1', color: 'dark', image: '~assets/capture.png' },
-        { title: 'Map 1', color: 'danger' },
+        { title: 'Map 1', color: 'dark', image: 'img/capture.png' },
+        { title: 'Map 2', color: 'danger', image: 'img/map2.png' },
       ],
     }
   },
@@ -304,6 +323,7 @@ export default {
       this.launchGame()
     })
     this.socket.on('changeMap', (map) => {
+      console.log(map)
       this.map = map
     })
   },
@@ -312,8 +332,13 @@ export default {
       this.page = 4
     },
     changeMap(map) {
+      console.log(map)
       this.map = map
+      console.log(this.map)
       this.socket.emit('changeMap', this.room, map)
+    },
+    visibilityArrow(){
+      this.arrow = this.playerType === 'p1';
     },
     getRandomString() {
       const randomChars =
@@ -356,6 +381,7 @@ export default {
         this.user = user
       })
       this.page = 2
+      this.visibilityArrow()
     },
     launchRoom() {
       this.socket.emit('startGame', this.room)
