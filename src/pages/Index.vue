@@ -298,8 +298,6 @@ export default {
       playerType: '',
       swapTime: false,
       map: 0,
-      itemShow: 0,
-      itemList: 0,
       powerr: false,
       arrow: null,
       carousel: 0,
