@@ -76,6 +76,7 @@ export default {
 	  }
   },
   mounted(){
+    this.$refs.audioElements.play()
   },
   methods: {
     redirection() {
