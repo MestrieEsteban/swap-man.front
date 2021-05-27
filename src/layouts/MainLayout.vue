@@ -35,9 +35,9 @@
               ref="audioElements"
               hidden
               :autoplay="true"
-              :show-big-play-button="true"
               :sources="audio.sources">
             </q-media-player>
+
           </b-navbar-item>
         </template>
       </b-navbar>
@@ -76,7 +76,6 @@ export default {
 	  }
   },
   mounted(){
-    this.$refs.audioElements.play()
   },
   methods: {
     redirection() {
