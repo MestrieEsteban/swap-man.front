@@ -33,11 +33,15 @@
             <q-media-player
               type="audio"
               ref="audioElements"
+              loop="true"
               hidden
+              background-color="black"
+              :muted="false"
+              radius="1rem"
               :autoplay="true"
+              :show-big-play-button="true"
               :sources="audio.sources">
             </q-media-player>
-
           </b-navbar-item>
         </template>
       </b-navbar>
