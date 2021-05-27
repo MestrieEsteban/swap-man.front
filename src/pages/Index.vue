@@ -330,9 +330,7 @@ export default {
       this.page = 4
     },
     changeMap(map) {
-      console.log(map)
       this.map = map
-      console.log(this.map)
       this.socket.emit('changeMap', this.room, map)
     },
     visibilityArrow(){
