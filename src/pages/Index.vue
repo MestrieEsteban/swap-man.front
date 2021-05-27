@@ -312,6 +312,8 @@ export default {
       carousels: [
         { title: 'Map 1', image: 'https://i.ibb.co/hHVQfx0/capture.png' },
         { title: 'Map 2', image: 'https://i.ibb.co/qpvLYGv/map2.png' },
+        { title: 'Map 3', image: 'https://i.ibb.co/CsLqKNn/3.png'},
+        { title: 'Map 4', image: 'https://i.ibb.co/8cnvty9/4.png'}
       ],
     }
   },

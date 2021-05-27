@@ -1,4 +1,4 @@
-import { LEVEL, LEVEL2, OBJECT_TYPE } from './setup';
+import { LEVEL, LEVEL2, LEVEL3,LEVEL4, OBJECT_TYPE } from './setup';
 // Classes
 import GameBoard from './GameBoard';
 import Pacman from './Pacman';
@@ -177,9 +177,16 @@ export default {
 			let level
 			if (this.map === 0) {
 				level = LEVEL
-			} else {
+			} else if(this.map === 1) {
 				level = LEVEL2
 			}
+			else if(this.map === 2) {
+				level = LEVEL3
+			}
+			else {
+				level = LEVEL4
+			}
+
 			this.gameBoard = GameBoard.createGameBoard(gameGrid, level);
 			this.gameBoard.createGrid(level);
 			const pacman = new Pacman(1, 287);
