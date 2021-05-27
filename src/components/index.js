@@ -102,10 +102,17 @@ export default {
 				this.gameBoard.showSwapStatus();
 				setTimeout(() => { this.gameBoard.removeSwapStatus(); }, 2000);
 
-				if (this.playerType == "p1")
+				if (this.playerType == "p1") {
 					this.playerType = "p2"
-				else
+					document.querySelector('#game').classList.add("isGho")
+					document.querySelector('#game').classList.remove("isPac")
+				}
+				else {
 					this.playerType = "p1"
+					document.querySelector('#game').classList.remove("isGho")
+					document.querySelector('#game').classList.add("isPac")
+				}
+
 				this.isSwap = false
 			} else if(this.isEat){
 				player2.pos = 230
@@ -147,12 +154,18 @@ export default {
 			if (this.gameBoard.objectExist(pacman.pos, OBJECT_TYPE.PILL)) {
 				this.gameBoard.removeObject(pacman.pos, [OBJECT_TYPE.PILL]);
 				pacman.powerPill = true;
+				if (this.playerType == "p2") {
+					document.querySelector('#game').classList.add("isSca")
+				}
 				this.powerr = true
 				clearTimeout(this.powerPillTimer);
 				this.powerPillTimer = setTimeout(
 					() => {
 						pacman.powerPill = false
 						this.powerr = false
+						if (this.playerType == "p2") {
+							document.querySelector('#game').classList.remove("isSca")
+						}
 					},
 					this.POWER_PILL_TIME
 				);
@@ -170,23 +183,34 @@ export default {
 		},
 		startGame() {
 			document.querySelector('#game').classList.remove("hide")
+			document.querySelector('#game').classList.add("boxs")
+			if (this.playerType == "p1") {
+				document.querySelector('#game').classList.add("isPac")
+			} else {
+				document.querySelector('#game').classList.add("isGho")
+			}
 			this.playAudio(intro)
 			this.gameWin = false;
 			this.powerPillActive = false;
 			const gameGrid = document.querySelector('#game');
 			let level
-			if (this.map === 0) {
-				level = LEVEL
-			} else if(this.map === 1) {
-				level = LEVEL2
+			switch (this.map) {
+				case 0:
+					level = LEVEL
+					break;
+				case 1:
+					level = LEVEL2
+					break;
+				case 2:
+					level = LEVEL3
+					break;
+				case 3:
+					level = LEVEL4
+					break;
+				default:
+					level = LEVEL
+					break;
 			}
-			else if(this.map === 2) {
-				level = LEVEL3
-			}
-			else {
-				level = LEVEL4
-			}
-
 			this.gameBoard = GameBoard.createGameBoard(gameGrid, level);
 			this.gameBoard.createGrid(level);
 			const pacman = new Pacman(1, 287);

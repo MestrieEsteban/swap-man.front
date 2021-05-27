@@ -215,19 +215,22 @@
         </div>
       </div>
       <div class="columns is-centered">
-        <div id="game" class="hide"></div>
-      </div>
-      <div class="columns is-centered">
         <div v-if="playerType === 'p1' && page == 3">
-          <span style="color: #f2c037;">Pacman</span>
+			<span class="title">Your are : </span>
+          	<span style="color: #f2c037;" class="title">Pacman</span>
         </div>
         <div v-if="playerType === 'p2' && page == 3">
-          <span style="color: #cf4040;">Ghost</span>
+			<span class="title">Your are : </span>
+          	<span style="color: #cf4040;" class="title">Ghost</span>
         </div>
       </div>
+      <div class="columns is-centered" style=""> 
+        <div id="game" class="hide"></div>
+      </div>
+	  <br>
       <div class="columns is-centered">
         <div v-if="powerr === true && page == 3">
-          <span class="grad1">Ghost is scared</span>
+          <span class="title grad1">Ghost is scared</span>
         </div>
       </div>
     </div>
