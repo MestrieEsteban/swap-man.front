@@ -56,30 +56,23 @@ export default {
   name: 'MainLayout',
   data(){
 	  return{
-		  pause: "play"
+		  pause: "play",
 	  }
   },
   mounted(){
-	  this.startplay()
   },
   methods: {
-	startplay(){
-		var a = this.$refs.audioElm;
-	a.play();
-	this.pause = "play"
-	},
     redirection() {
       location.reload()
     },
 	play: function(event) {
-      var a = this.$refs.audioElm;
-      if (a.paused) {
-        a.play();
+	  const audio = this.$refs.audioElm
+      if (audio.paused) {
+        audio.play();
 		this.pause = "play"
       } else {
-        a.pause();
+        audio.pause();
 		this.pause = "pause"
-
       }
     }
   },
