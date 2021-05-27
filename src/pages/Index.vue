@@ -77,7 +77,27 @@
           <b-field label="Name Room">
             <b-input placeholder="Room" v-model="room"></b-input>
           </b-field>
-          <b-button @click="joinRoom" class="is-link">Join room</b-button>
+		  <br>
+		  <div class="columns is-centered">
+			  <div
+            role="button"
+            class="retro-btn primary nes-pointer"
+            @click="joinRoom()"
+          >
+            <a class="btn">
+              <span class="btn-inner">
+                <span class="content-wrapper">
+                  <span class="btn-content">
+                    <span
+                      class="btn-content-inner"
+                      label="Join room"
+                    ></span>
+                  </span>
+                </span>
+              </span>
+            </a>
+          </div>
+		  </div>
         </section>
       </div>
       <div v-if="page === 2">
@@ -112,7 +132,7 @@
             <b-carousel-item v-for="(carousel, i) in carousels" :key="i">
               <section :class="`hero is-small is-dark`">
                 <div class="hero-body has-text-centered">
-                  <h1 class="title">{{carousel.title}}</h1>
+                  <h1 class="title">{{ carousel.title }}</h1>
                   <img :src="carousel.image" width="300" />
                 </div>
               </section>
@@ -129,26 +149,69 @@
             :repeat="repeat"
             :has-drag="drag"
             v-if="user.user2 !== ''"
-            @change="changeMap($event)">
+            @change="changeMap($event)"
+          >
             <template #item="list">
               <section :class="`hero is-small is-dark`">
                 <div class="hero-body has-text-centered">
-                  <h1 class="title">{{list.title}}</h1>
+                  <h1 class="title">{{ list.title }}</h1>
                   <img :src="list.image" width="300" />
                 </div>
               </section>
             </template>
           </b-carousel-list>
+          <br />
+          <div class="columns is-centered">
+            <div
+              role="button"
+              class="retro-btn danger nes-pointer"
+              @click="disconnect()"
+            >
+              <a class="btn">
+                <span class="btn-inner">
+                  <span class="content-wrapper">
+                    <span class="btn-content">
+                      <span class="btn-content-inner" label="Leave Game"></span>
+                    </span>
+                  </span>
+                </span>
+              </a>
+            </div>
+          </div>
         </div>
         <div class="marginImage"></div>
         <div class="columns is-centered" v-if="type === 'user1'">
-          <b-button
-            class="is-link"
-            :disabled="user.user2 === ''"
+          <div
+            role="button"
+            class="retro-btn primary nes-pointer"
             @click="launchRoom()"
           >
-            Start Game
-          </b-button>
+            <a class="btn">
+              <span class="btn-inner">
+                <span class="content-wrapper">
+                  <span class="btn-content">
+                    <span class="btn-content-inner" label="Start Game"></span>
+                  </span>
+                </span>
+              </span>
+            </a>
+          </div>
+          <div class="marginHome"></div>
+          <div
+            role="button"
+            class="retro-btn danger nes-pointer"
+            @click="disconnect()"
+          >
+            <a class="btn">
+              <span class="btn-inner">
+                <span class="content-wrapper">
+                  <span class="btn-content">
+                    <span class="btn-content-inner" label="Leave Game"></span>
+                  </span>
+                </span>
+              </span>
+            </a>
+          </div>
         </div>
       </div>
       <div class="columns is-centered">
@@ -168,17 +231,35 @@
         </div>
       </div>
     </div>
+	<br>
+	<div class="columns is-centered">
+            <div
+				v-if="page == 3"
+              role="button"
+              class="retro-btn danger nes-pointer"
+              @click="disconnect()"
+            >
+              <a class="btn">
+                <span class="btn-inner">
+                  <span class="content-wrapper">
+                    <span class="btn-content">
+                      <span class="btn-content-inner" label="Leave Game"></span>
+                    </span>
+                  </span>
+                </span>
+              </a>
+            </div>
+          </div>
     <div v-if="swapTime === true">
       <span>Swap !</span>
     </div>
-      <div class="marginImage"></div>
+    <div class="marginImage"></div>
 
     <div
       v-if="page === 4"
       class="nes-container with-title is-centered"
       style="max-width: 980px; margin: 0 auto;"
     >
-
       <h1 class="title">How to play ?</h1>
       <div class="marginImage"></div>
       <div class="columns is-centered">
@@ -326,8 +407,21 @@ export default {
       console.log(map)
       this.map = map
     })
+    this.socket.on('roomFull', () => {
+      alert('The lobby is full try another code')
+      location.reload()
+    })
+    this.socket.on('deco', () => {
+      alert('The lobby is deleted')
+      location.reload()
+    })
   },
   methods: {
+    disconnect() {
+      this.socket.emit('deco', this.room)
+      alert('Lobby disconected')
+      location.reload()
+    },
     howToPlay() {
       this.page = 4
     },
@@ -335,8 +429,8 @@ export default {
       this.map = map
       this.socket.emit('changeMap', this.room, map)
     },
-    visibilityArrow(){
-      this.arrow = this.playerType === 'p1';
+    visibilityArrow() {
+      this.arrow = this.playerType === 'p1'
     },
     getRandomString() {
       const randomChars =
