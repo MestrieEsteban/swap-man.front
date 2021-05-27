@@ -2,7 +2,7 @@
   "name": "swapman",
   "version": "0.0.1",
   "description": "A Quasar Framework app",
-  "productName": "Swap-Man, multiplayer pacman !\n",
+  "productName": "Swap-Man, multiplayer pacman !",
   "author": "Swap-Man",
   "private": true,
   "scripts": {
