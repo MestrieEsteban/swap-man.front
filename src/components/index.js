@@ -144,13 +144,10 @@ export default {
 				}
 			}
 			//TODO move player 2
-			// Check if Pacman eats a dot
 			if (this.gameBoard.objectExist(this.pacx.pos, OBJECT_TYPE.DOT)) {
 				this.gameBoard.removeObject(this.pacx.pos, [OBJECT_TYPE.DOT]);
-				// Remove a dot
 				this.gameBoard.dotCount--;
 			}
-			// 6. Check if Pacman eats a power pill
 			if (this.gameBoard.objectExist(pacman.pos, OBJECT_TYPE.PILL)) {
 				this.gameBoard.removeObject(pacman.pos, [OBJECT_TYPE.PILL]);
 				pacman.powerPill = true;
@@ -170,12 +167,10 @@ export default {
 					this.POWER_PILL_TIME
 				);
 			}
-			// 7. Change ghost scare mode depending on powerpill
 			// if (pacman.powerPill !== this.powerPillActive) {
 			// 	this.powerPillActive = pacman.powerPill;
 			// 	ghosts.forEach((ghost) => (ghost.isScared = pacman.powerPill));
 			// }
-			// 8. Check if all dots have been eaten
 			if (this.gameBoard.dotCount === 0) {
 				this.gameWin = true;
 				this.gameOver(this.pacx, this.gameGrid);

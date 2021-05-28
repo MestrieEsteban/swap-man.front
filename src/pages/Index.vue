@@ -103,7 +103,9 @@
       <div v-if="page === 2">
         <span class="lobbyCode nes-balloon from-left">
           code lobby :
-          <span class="nes-text is-primary">{{ room }}</span>
+		  <a @click="copyTestingCode()">
+          	<span class="nes-text is-primary">{{ room }}</span>
+		  </a>
         </span>
         <div class="marginImage"></div>
         <div class="marginImage"></div>
@@ -361,6 +363,7 @@
         <img src="~assets/capture.png" width="400" height="200" />
       </div>
     </div>
+	<input id="room-code" type="hidden" :value="room">
   </q-page>
 </template>
 
@@ -415,11 +418,31 @@ export default {
       location.reload()
     })
     this.socket.on('deco', () => {
-      alert('The lobby is deleted')
+      alert('The lobby has been deleted')
       location.reload()
     })
   },
   methods: {
+	  copyTestingCode () {
+          let testingCodeToCopy = document.querySelector('#room-code')
+          testingCodeToCopy.setAttribute('type', 'text')
+          testingCodeToCopy.select()
+
+          try {
+            var successful = document.execCommand('copy');
+            var msg = successful ? 'successful' : 'unsuccessful';
+			this.$buefy.toast.open({
+				message: `Lobby code ${this.room} was copied ${msg}`,
+				type: 'is-success'
+				})
+          } catch (err) {
+            alert('Oops, unable to copy');
+          }
+
+          /* unselect the range */
+          testingCodeToCopy.setAttribute('type', 'hidden')
+          window.getSelection().removeAllRanges()
+        },
     disconnect() {
       this.socket.emit('deco', this.room)
       alert('Lobby disconected')
@@ -459,7 +482,10 @@ export default {
           this.page = 1
         }
       } else {
-        alert("Veuillez saisir le nom de l'utilisateur")
+		  this.$buefy.toast.open({
+				message: `Please enter a username`,
+				type: 'is-danger'
+				})
       }
     },
     joinRoom() {
@@ -468,7 +494,10 @@ export default {
         this.type = 'user2'
         this.getLobby()
       } else {
-        alert('Veuillez saisir le nom de la room')
+		   this.$buefy.toast.open({
+				message: `Please enter a lobby code`,
+				type: 'is-danger'
+				})
       }
     },
     getLobby() {
@@ -486,7 +515,10 @@ export default {
         this.page = 3
         this.startGame()
       } else {
-        alert('Tous les joueur ne sont pas connecté')
+		  this.$buefy.toast.open({
+				message: `All players is not connected`,
+				type: 'is-danger'
+				})
       }
     },
   },
