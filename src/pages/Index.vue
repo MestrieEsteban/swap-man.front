@@ -430,16 +430,13 @@ export default {
 
           try {
             var successful = document.execCommand('copy');
-            var msg = successful ? 'successful' : 'unsuccessful';
 			this.$buefy.toast.open({
-				message: `Lobby code ${this.room} was copied ${msg}`,
+				message: `Lobby code ${this.room} was copied`,
 				type: 'is-success'
 				})
           } catch (err) {
             alert('Oops, unable to copy');
           }
-
-          /* unselect the range */
           testingCodeToCopy.setAttribute('type', 'hidden')
           window.getSelection().removeAllRanges()
         },
